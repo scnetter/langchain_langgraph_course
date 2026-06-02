@@ -77,8 +77,24 @@ def demo_schema_inspection():
     print(f"Output schema: {output_schema}")
 
 
+def exercise_first_chain():
+    """Given a product name and audience, generate a marketing tagline."""
+    prompt = ChatPromptTemplate.from_template("Generate a catchy marketing tagline for the product {product} where the intended audience is {audience}")
+    model = ChatAnthropic(model="claude-haiku-4-5", temperature=0.7)
+    parser = StrOutputParser()
+
+    chain = prompt | model | parser
+
+    result =chain.invoke({"product": "AI Course", "audience": "developers"})
+
+    print(f"Chain output: {result}")
+
+
+
+
 if __name__ == "__main__":
     # demo_basic_chain()
     # demo_batch_execution()
     # demo_streaming()
-    demo_schema_inspection()
+    # demo_schema_inspection()
+    exercise_first_chain()
