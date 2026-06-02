@@ -46,6 +46,23 @@ def demo_batch_execution():
     
     return results
 
+
+def demo_streaming():
+    """Demonstrate streaming for real-time output."""
+    prompt = ChatPromptTemplate.from_template("Write a haiku about: {topic}")
+    model = ChatAnthropic(model="claude-haiku-4-5", temperature=0.7)
+    parser = StrOutputParser()
+
+    chain = prompt | model | parser
+
+    # Streaming - run with streaming=True
+    print("Streaming output:")
+    for chunk in chain.stream({"topic": "nature"}):
+        print(chunk, end="", flush=True)
+
+    print() # newline after streaming
+
 if __name__ == "__main__":
     # demo_basic_chain()
-    demo_batch_execution()
+    # demo_batch_execution()
+    demo_streaming()
