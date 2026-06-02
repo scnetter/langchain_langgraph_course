@@ -62,7 +62,23 @@ def demo_streaming():
 
     print() # newline after streaming
 
+def demo_schema_inspection():
+    """Demonstrate schema inspection."""
+    prompt = ChatPromptTemplate.from_template("Write a haiku about: {topic}")
+    model = ChatAnthropic(model="claude-haiku-4-5", temperature=0.7)
+    parser = StrOutputParser()
+
+    chain = prompt | model | parser
+
+    input_schema = chain.input_schema.model_json_schema()
+    output_schema = chain.output_schema.model_json_schema()
+
+    print(f"Input schema: {input_schema}")
+    print(f"Output schema: {output_schema}")
+
+
 if __name__ == "__main__":
     # demo_basic_chain()
     # demo_batch_execution()
-    demo_streaming()
+    # demo_streaming()
+    demo_schema_inspection()
