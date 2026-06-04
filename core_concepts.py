@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from langchain_anthropic import ChatAnthropic
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
+from langchain.chat_models import init_chat_model
 import os
 load_dotenv()
 
@@ -79,7 +80,7 @@ def demo_schema_inspection():
 
 def exercise_first_chain():
     """Given a product name and audience, generate a marketing tagline."""
-    prompt = ChatPromptTemplate.from_template("Generate a catchy marketing tagline for the product {product} where the intended audience is {audience}")
+    prompt = ChatPromptTemplate.from_template("Generate a single catchy marketing tagline for the product {product} where the intended audience is {audience}")
     model = ChatAnthropic(model="claude-haiku-4-5", temperature=0.7)
     parser = StrOutputParser()
 
@@ -89,12 +90,27 @@ def exercise_first_chain():
 
     print(f"Chain output: {result}")
 
+def new_way():
+    # the universal way to initiate a model
+    # see init_chat_model documentation and import
 
+    prompt = ChatPromptTemplate.from_template("Generate a single catchy marketing tagline for the product {product} where the intended audience is {audience}")
+    parser = StrOutputParser()
 
+    # calls the right interface based on the model name as opposed to calling the model wrapper like ChatAnthropic()
+    model = init_chat_model(model="claude-haiku-4-5",
+                                  temperature=0.7,
+                                  max_tokens=500)
+    chain = prompt | model | parser 
+
+    result = chain.invoke({"product": "AI Course", "audience": "developers"})
+    print(f"Chain output: {result}")
+    return result
 
 if __name__ == "__main__":
     # demo_basic_chain()
     # demo_batch_execution()
     # demo_streaming()
     # demo_schema_inspection()
-    exercise_first_chain()
+    # exercise_first_chain()
+    new_way()
