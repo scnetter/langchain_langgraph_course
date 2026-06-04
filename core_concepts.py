@@ -108,10 +108,26 @@ def new_way():
     print(f"Chain output: {result}")
     return result
 
+
+def azure_openai():
+    # use an azure openai model
+    prompt = ChatPromptTemplate.from_template("Generate a single catchy marketing tagline for the product {product} where the intended audience is {audience}")
+    parser = StrOutputParser()
+    model = init_chat_model(deployment_name="gpt-4o-mini",   # deployment name, NOT the model name
+                            model_provider="azure_openai",
+                            model="gpt-4o-mini",
+                            api_version="2024-08-01-preview",
+                            temperature=0.7)
+    chain = prompt | model | parser
+    result = chain.invoke({"product": "AI Course", "audience": "developers"})
+    print(f"Chain output: {result}")
+    return result
+
 if __name__ == "__main__":
     # demo_basic_chain()
     # demo_batch_execution()
     # demo_streaming()
     # demo_schema_inspection()
     # exercise_first_chain()
-    new_way()
+    # new_way()
+    azure_openai()
