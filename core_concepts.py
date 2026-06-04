@@ -6,6 +6,7 @@ from langchain_anthropic import ChatAnthropic
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain.chat_models import init_chat_model
+
 import os
 load_dotenv()
 
@@ -98,7 +99,7 @@ def new_way():
     parser = StrOutputParser()
 
     # calls the right interface based on the model name as opposed to calling the model wrapper like ChatAnthropic()
-    model = init_chat_model(model="claude-haiku-4-5",
+    model = init_chat_model(model="soc-parser", model_provider="ollama",
                                   temperature=0.7,
                                   max_tokens=500)
     chain = prompt | model | parser 
