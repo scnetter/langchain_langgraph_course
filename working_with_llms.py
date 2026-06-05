@@ -72,8 +72,28 @@ def demo_model_comparison():
 # # print(f"Response from Azure OpenAI: {response.content}")
 
 
+def demo_message():
+    model = ChatAnthropic(model="claude-haiku-4-5", api_key=os.getenv("ANTHROPIC_API_KEY"))
+    messages = [
+        SystemMessage(content="You are a pirate. Always answer in pirate speak."),
+        HumanMessage(content="Is the weather like today?")
+    ]
+    
+    response = model.invoke(messages)
+    print(f"{messages[0]} | {messages[1]}")
+    print(f"Response from pirate: {response.content}")
+
+    # Multi-turn conversation using message objects
+    messages.append(response)
+    messages.append(HumanMessage(content="What about tomorrow?"))
+    response = model.invoke(messages)
+    print(f"Pirate says: {response.content}")
+
+
+    
 
 
 
 if __name__ == "__main__":
-    demo_model_comparison()
+    # demo_model_comparison()
+    demo_message()
