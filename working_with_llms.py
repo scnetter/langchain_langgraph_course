@@ -88,12 +88,19 @@ def demo_message():
     messages.append(HumanMessage(content="What about tomorrow?"))
     response = model.invoke(messages)
     print(f"Pirate says: {response.content}")
+# TODO: For symmetric instatiation of models, use another claude model or add an actual OpenAI API key
+def exercise_multi_model(prompt, models) -> dict[str, str]:
+    model_responses = {}
+    for model_name in models:
+        model_responses[model_name] = demo_init_model(model=model_name, model_provider='anthropic', temperature=0.7, streaming=False, max_retries=3).invoke(prompt)
 
-
-    
+    return model_responses
 
 
 
 if __name__ == "__main__":
     # demo_model_comparison()
-    demo_message()
+    # demo_message()
+    model_responses = exercise_multi_model("What is AI?", ["claude-sonnet-4-5", "claude-haiku-4-5"])
+    for model, response in model_responses.items():
+        print(f"Model: {model} | Response: {response.content}")
