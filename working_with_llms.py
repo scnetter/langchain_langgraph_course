@@ -92,7 +92,11 @@ def demo_message():
 def exercise_multi_model(prompt, models) -> dict[str, str]:
     model_responses = {}
     for model_name in models:
-        model_responses[model_name] = demo_init_model(model=model_name, model_provider='anthropic', temperature=0.7, streaming=False, max_retries=3).invoke(prompt)
+        model_responses[model_name] = demo_init_model(model=model_name, 
+                                            model_provider='anthropic', 
+                                            temperature=0.7, 
+                                            streaming=False, 
+                                            max_retries=3).invoke(prompt)
 
     return model_responses
 
