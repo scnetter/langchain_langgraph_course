@@ -88,7 +88,8 @@ def demo_message():
     messages.append(HumanMessage(content="What about tomorrow?"))
     response = model.invoke(messages)
     print(f"Pirate says: {response.content}")
-# TODO: For symmetric instatiation of models, use another claude model or add an actual OpenAI API key
+
+
 def exercise_multi_model(prompt, models) -> dict[str, str]:
     model_responses = {}
     for model_name in models:
